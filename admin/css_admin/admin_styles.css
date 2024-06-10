@@ -1,0 +1,239 @@
+/* css KH */
+
+
+/* css cho header, footer, sidebar */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: rgb(0, 113, 193);
+    padding: 10px 0;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 24px;
+    text-align: center;
+}
+
+header nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.container {
+    display: flex;
+    flex: 1;
+    margin-right: 0px;
+    margin-left: 0px;
+    width: 1500px;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #f8f9fa;
+    padding: 20px;
+    flex-shrink: 0;
+}
+
+aside {
+    background-color: #f4f4f4;
+    padding: 20px;
+    width: 200px;
+}
+
+aside ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 5px;
+}
+
+aside ul li {
+    margin: 10px 0;
+}
+
+aside ul li a {
+    color: #333;
+    text-decoration: none;
+}
+
+aside ul li a:hover {
+    text-decoration: underline;
+}
+
+.aside ul li .nav-item {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.content {
+    flex: 1;
+    padding: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+table th {
+    background-color: #f2f2f2;
+}
+
+/* css cho index.php trong admin */
+
+
+.main-content {
+    flex: 1;
+    margin-left: 10px;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    width: 2000px;
+}
+
+.dashboard-stats {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.stat-item {
+    flex: 1;
+    min-width: 150px; /* Giảm kích thước tối thiểu của ô */
+    background-color: #0071c1;
+    color: white;
+    margin: 5px; /* Giảm khoảng cách giữa các ô */
+    padding: 10px; /* Giảm khoảng cách bên trong của ô */
+    border-radius: 5px;
+    text-align: center;
+    height: 130px;
+    width: 340px;
+}
+
+.stat-item p {
+    font-size: 40px;
+    margin: 18px;
+}
+
+.stat-item h2 {
+    font-size: 40px;
+    margin: 18px;
+}
+
+
+
+
+.dashboard-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr) auto;
+    grid-gap: 5px;
+  }
+  
+  .stat-item:last-child {
+    grid-column: 1 / 4;
+  }
+
+
+.charts {
+    margin-top: 20px;
+}
+
+canvas {
+    margin: 20px 0;
+}
+
+/* css cho admin_sidebar.php */
+.menu, .submenu {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.submenu {
+    display: none;
+    list-style-type: none;
+    padding-left: 20px;
+}
+
+.submenu li {
+    margin-bottom: 10px;
+}
+
+.toggle-submenu::after {
+    content: '\25B6'; /* Right-pointing arrow */
+    float: right;
+    margin-right: 10px;
+}
+
+.toggle-submenu.active::after {
+    content: '\25BC'; /* Down-pointing arrow */
+}
+
+.toggle-submenu {
+    cursor: pointer;
+}
+
+/* css Thêm các kiểu dáng để đồng bộ hóa giao diện: dùng Boostrap và FontAweSome */
+
+body {
+    font-family: 'Arial', sans-serif;
+}
+
+header {
+    background-color: rgb(0, 113, 193);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+header nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+aside {
+    width: 300px;
+    background-color: #f8f9fa;
+    padding: 20px;
+}
+
+aside .nav-link {
+    color: #333;
+    margin: 5px 0;
+}
+
+aside .nav-link:hover {
+    color: rgb(0, 113, 193);
+}
+
+aside .nav-link i {
+    margin-right: 10px;
+}
+
+footer {
+    background-color: rgb(0, 113, 193);
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    margin-top: auto;
+}
+
+.nav-item {
+    margin: 25px;
+}

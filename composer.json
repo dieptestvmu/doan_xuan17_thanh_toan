@@ -1,0 +1,19 @@
+{
+    "name": "doanxuan/thanh-toan",
+    "description": "Project description here",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Doanxuan\\ThanhToan\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Diep",
+            "email": "dieptestvmu@gmail.com"
+        }
+    ],
+    "require": {
+        "phpoffice/phpspreadsheet": "^2.1"
+    }
+}
