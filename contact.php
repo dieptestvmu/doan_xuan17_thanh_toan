@@ -14,7 +14,7 @@
         <div class="contact-header">
             <h1>THÔNG TIN LIÊN HỆ</h1>
             <p>Công Ty TNHH Thương Mại Đoàn Xuân</p>
-            <p><a href="tel:0868264726">0868 264 726</a> | <a href="mailto:contact@doanxuanbus.vn">contact@doanxuanbus.vn</a></p>
+            <p><a href="tel:0316278888">0316 278 888</a> | <a href="mailto:contact@doanxuanbus.vn">contact@doanxuanbus.vn</a></p>
         </div>
         <div class="contact-content">
             <div class="contact-info">

@@ -195,12 +195,14 @@ $user = $result->fetch_assoc();
             $placeholders = implode(',', array_fill(0, count($khachhangIDs), '?'));
 
             // Lấy thông tin vé dựa trên KhachHangID
-            $sqlTickets = "SELECT VeXe.*, ChoNgoi.SoGhe, TuyenXe.DiemDi, TuyenXe.DiemDen, LichTrinhXe.NgayKhoiHanh, LichTrinhXe.GioKhoiHanh, LichTrinhXe.GiaVe
-                           FROM vexe VeXe
-                           JOIN chongoi ChoNgoi ON VeXe.ChoNgoiID = ChoNgoi.ChoNgoiID
-                           JOIN lichtrinhxe LichTrinhXe ON VeXe.LichTrinhXeID = LichTrinhXe.LichTrinhXeID
-                           JOIN tuyenxe TuyenXe ON LichTrinhXe.TuyenXeID = TuyenXe.TuyenXeID
-                           WHERE VeXe.KhachHangID IN ($placeholders)";
+            $sqlTickets = "SELECT VeXe.*, ChoNgoi.SoGhe, TuyenXe.DiemDi, TuyenXe.DiemDen, LichTrinhXe.NgayKhoiHanh, LichTrinhXe.GioKhoiHanh, LichTrinhXe.GiaVe, ThanhToan.TrangThaiThanhToan
+               FROM vexe VeXe
+               JOIN chongoi ChoNgoi ON VeXe.ChoNgoiID = ChoNgoi.ChoNgoiID
+               JOIN lichtrinhxe LichTrinhXe ON VeXe.LichTrinhXeID = LichTrinhXe.LichTrinhXeID
+               JOIN tuyenxe TuyenXe ON LichTrinhXe.TuyenXeID = TuyenXe.TuyenXeID
+               LEFT JOIN thanhtoan ThanhToan ON VeXe.VeXeID = ThanhToan.VeXeID
+               WHERE VeXe.KhachHangID IN ($placeholders)";
+
             $stmtTickets = $conn->prepare($sqlTickets);
 
             // Liên kết các giá trị KhachHangID vào các placeholders
@@ -209,7 +211,18 @@ $user = $result->fetch_assoc();
             $resultTickets = $stmtTickets->get_result();
 
             if ($resultTickets->num_rows > 0) {
-                echo "<tr><th>Điểm đi</th><th>Điểm đến</th><th>Ngày khởi hành</th><th>Giờ khởi hành</th><th>Chỗ ngồi</th><th>Giá vé</th><th>Thời gian đặt vé</th><th>Hành động</th></tr>";
+                echo "<tr>
+                        <th>Điểm đi</th>
+                        <th>Điểm đến</th>
+                        <th>Ngày khởi hành</th>
+                        <th>Giờ khởi hành</th>
+                        <th>Chỗ ngồi</th>
+                        <th>Giá vé</th>
+                        <th>Mã vé</th>
+                        <th>Trạng thái thanh toán</th>
+                        <th>Thời gian đặt vé</th>
+                        <th>Hành động</th>
+                      </tr>";
                 while ($ticket = $resultTickets->fetch_assoc()) {
                     echo "<tr>";
                     echo "<td>" . $ticket['DiemDi'] . "</td>";
@@ -218,6 +231,8 @@ $user = $result->fetch_assoc();
                     echo "<td>" . $ticket['GioKhoiHanh'] . "</td>";
                     echo "<td>" . $ticket['SoGhe'] . "</td>";
                     echo "<td>" . $ticket['GiaVe'] . " VND</td>";
+                    echo "<td>" . $ticket['CodeVeXe'] . "</td>";
+                    echo "<td>" . $ticket['TrangThaiThanhToan'] . "</td>";
                     echo "<td>" . $ticket['ThoiGianDatVe'] . "</td>";
                     echo "<td><button class='small-button cancel-ticket-btn' data-ticket-id='" . $ticket['VeXeID'] . "'>Hủy vé</button></td>";
                     echo "</tr>";
@@ -225,6 +240,7 @@ $user = $result->fetch_assoc();
             } else {
                 echo "Bạn chưa đặt vé nào.";
             }
+            
         } else {
             echo "Bạn chưa đặt vé nào.";
         }

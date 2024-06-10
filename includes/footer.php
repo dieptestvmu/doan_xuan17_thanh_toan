@@ -34,6 +34,6 @@
         </div>
     </div>
     <div class="text-center p-3 bg-dark text-white">
-        © 2024 TNHH Vận tải Bus Đoàn Xuân
+        © 2024 Công ty TNHH Thương Mại Đoàn Xuân
     </div>
 </footer>
