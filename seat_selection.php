@@ -136,17 +136,46 @@ if ($resultUser->num_rows > 0) {
         });
 
         $(document).ready(function() {
-            $('#confirmBtn').click(function() {
-                if (selectedSeats.length > 0 && $('#full-name').val() && $('#phone-number').val() && $('#pickup-point').val() && $('#dropoff-point').val()) {
-                    // Chuyển dữ liệu sang trang thanh toán
-                    var form = $('#seatForm');
-                    form.attr('action', 'payment.php');
-                    form.submit();
-                } else {
-                    alert('Vui lòng chọn ít nhất 1 chỗ ngồi và điền đầy đủ thông tin.');
+    $('#confirmBtn').click(function() {
+        if (selectedSeats.length > 0 && $('#full-name').val() && $('#phone-number').val() && $('#pickup-point').val() && $('#dropoff-point').val()) {
+            // Collect form data
+            var formData = {
+                fullName: $('#full-name').val(),
+                phoneNumber: $('#phone-number').val(),
+                email: $('#email').val(),
+                pickupPoint: $('#pickup-point').val(),
+                dropoffPoint: $('#dropoff-point').val(),
+                selectedSeats: selectedSeats,
+                lichTrinhXeID: lichTrinhXeID,
+                promoCode: $('#promo-code').val()
+            };
+
+            // Send the booking request via AJAX
+            $.ajax({
+                url: 'process_booking.php',
+                type: 'POST',
+                data: formData,
+                success: function(response) {
+                    var data = JSON.parse(response);
+                    if (data.success) {
+                        var veXeIDs = data.veXeIDs.join(',');
+                        window.location.href = 'payment.php?veXeIDs=' + veXeIDs;
+                    } else {
+                        alert('Đã xảy ra lỗi: ' + data.message);
+                    }
+                },
+                error: function() {
+                    alert('Đã xảy ra lỗi khi kết nối với máy chủ. Vui lòng thử lại.');
                 }
             });
-        });
+        } else {
+            alert('Vui lòng chọn ít nhất 1 chỗ ngồi và điền đầy đủ thông tin trên.');
+        }
+    });
+});
+
+
+
     </script>
 
     <div class="row" style="padding-top: 60px;">
@@ -301,46 +330,3 @@ if ($resultUser->num_rows > 0) {
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="js/scripts.js"></script>
-
-
-<script>
-$(document).ready(function() {
-    $('#confirmBtn').click(function() {
-        if (selectedSeats.length > 0 && $('#full-name').val() && $('#phone-number').val() && $('#pickup-point').val() && $('#dropoff-point').val()) {
-// Chuẩn bị dữ liệu để gửi đến server
-var data = {
-fullName: $('#full-name').val(),
-phoneNumber: $('#phone-number').val(),
-email: $('#email').val(),
-pickupPoint: $('#pickup-point').val(),
-dropoffPoint: $('#dropoff-point').val(),
-selectedSeats: selectedSeats,
-lichTrinhXeID: lichTrinhXeID,
-promoCode: $('#promo-code').val()
-};
-
-javascript
-Sao chép mã
-        $.ajax({
-            url: 'process_booking.php',
-            type: 'POST',
-            data: data,
-            success: function(response) {
-                var responseData = JSON.parse(response);
-                if (responseData.success) {
-                    var veXeIDs = responseData.veXeIDs.join(',');
-                    window.location.href = 'payment.php?veXeIDs=' + veXeIDs;
-                } else {
-                    alert('Có lỗi xảy ra. Vui lòng thử lại.');
-                }
-            },
-            error: function() {
-                alert('Có lỗi xảy ra. Vui lòng thử lại.');
-            }
-        });
-    } else {
-        alert('Vui lòng chọn ít nhất 1 chỗ ngồi và điền đầy đủ thông tin.');
-    }
-});
-});
-</script>
