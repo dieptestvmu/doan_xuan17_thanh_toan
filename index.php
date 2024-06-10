@@ -236,41 +236,6 @@ $(document).ready(function() {
         $(this).closest('.form-container').removeClass('active').hide();
     });
 
-    // $('#register-form').submit(function(e) {
-    //     e.preventDefault();
-    //     $.ajax({
-    //         url: 'register.php',
-    //         type: 'POST',
-    //         data: $(this).serialize(),
-    //         success: function(response) {
-    //             var data = JSON.parse(response);
-    //             if (data.success) {
-    //                 $('#register-container').removeClass('active').hide();
-    //                 $('#login-container').addClass('active').show();
-    //             } else {
-    //                 alert('Đăng ký không thành công!');
-    //             }
-    //         }
-    //     });
-    // });
-
-    // $('#register-form').submit(function(e) {
-    // e.preventDefault();
-    // $.ajax({
-    //     url: 'register.php',
-    //     type: 'POST',
-    //     data: $(this).serialize(),
-    //     success: function(response) {
-    //         var data = JSON.parse(response);
-    //         if (data.success) {
-    //             $('#register-container').removeClass('active').hide();
-    //             $('#login-container').addClass('active').show();
-    //         } else {
-    //             alert(data.message || 'Đăng ký không thành công!');
-    //         }
-    //     }
-    // });
-
 
     $('#register-form').submit(function(e) {
     e.preventDefault();

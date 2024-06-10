@@ -1,6 +1,5 @@
-<?php include 'includes/header.php'; ?>
-<?php include 'includes/db.php'; ?>
 
+<?php include 'includes/db.php'; ?>
 <?php
 session_start();
 if (!isset($_SESSION['username'])) {
@@ -27,6 +26,8 @@ if ($resultUser->num_rows > 0) {
     $email = '';
 }
 ?>
+<?php include 'includes/header.php'; ?>
+
 
 <!-- Thêm thẻ link dưới đây -->
 <link rel="stylesheet" type="text/css" href="css/styles.css">
