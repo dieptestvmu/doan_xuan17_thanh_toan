@@ -10,7 +10,7 @@ $ticketsData = [];
 
 if ($viewType === 'daily') {
     // Lấy dữ liệu theo ngày
-    $revenueChartQuery = "SELECT DATE(NgayThanhToan) AS date, SUM(SoTien) AS total FROM thanhtoan WHERE TrangThaiThanhToan = 'Hoàn thành' AND MONTH(NgayThanhToan) = ? AND YEAR(NgayThanhToan) = ? GROUP BY DATE(NgayThanhToan)";
+    $revenueChartQuery = "SELECT DATE(NgayThanhToan) AS date, SUM(SoTien) AS total FROM thanhtoan WHERE TrangThaiThanhToan = 'Đã thanh toán' AND MONTH(NgayThanhToan) = ? AND YEAR(NgayThanhToan) = ? GROUP BY DATE(NgayThanhToan)";
     $ticketsChartQuery = "SELECT DATE(ThoiGianDatVe) AS date, COUNT(*) AS total FROM vexe WHERE MONTH(ThoiGianDatVe) = ? AND YEAR(ThoiGianDatVe) = ? GROUP BY DATE(ThoiGianDatVe)";
 
     $stmt = $conn->prepare($revenueChartQuery);
@@ -48,7 +48,7 @@ if ($viewType === 'daily') {
     }
 } else {
     // Lấy dữ liệu theo tháng
-    $revenueChartQuery = "SELECT MONTH(NgayThanhToan) AS month, SUM(SoTien) AS total FROM thanhtoan WHERE TrangThaiThanhToan = 'Hoàn thành' AND YEAR(NgayThanhToan) = ? GROUP BY MONTH(NgayThanhToan)";
+    $revenueChartQuery = "SELECT MONTH(NgayThanhToan) AS month, SUM(SoTien) AS total FROM thanhtoan WHERE TrangThaiThanhToan = 'Đã thanh toán' AND YEAR(NgayThanhToan) = ? GROUP BY MONTH(NgayThanhToan)";
     $ticketsChartQuery = "SELECT MONTH(ThoiGianDatVe) AS month, COUNT(*) AS total FROM vexe WHERE YEAR(ThoiGianDatVe) = ? GROUP BY MONTH(ThoiGianDatVe)";
 
     $stmt = $conn->prepare($revenueChartQuery);

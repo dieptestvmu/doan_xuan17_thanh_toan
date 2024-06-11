@@ -96,6 +96,7 @@ while ($row = $resultNhanVien->fetch_assoc()) {
     $nhanVienOptions[] = $row;
 }
 ?>
+
 <style>
     /* General Styles */
 body {
@@ -236,63 +237,78 @@ h1 {
 }
 
 </style>
-<div class="main-content">
+
+<div class="main-content container">
     <h1>Quản Lý Sao Lưu Dữ Liệu</h1>
 
-    <form method="POST" action="backups.php">
-        <label for="thoiGianSaoLuu">Thời gian sao lưu:</label>
-        <input type="datetime-local" id="thoiGianSaoLuu" name="thoiGianSaoLuu" required>
-        <label for="duLieu">Dữ liệu sao lưu:</label>
-        <textarea id="duLieu" name="duLieu" required></textarea>
-        <label for="ghiChu">Ghi chú:</label>
-        <input type="text" id="ghiChu" name="ghiChu">
-        <label for="nhanVienID">Nhân viên thực hiện:</label>
-        <select id="nhanVienID" name="nhanVienID" required>
-            <?php foreach ($nhanVienOptions as $nhanVien): ?>
-                <option value="<?= $nhanVien['NhanVienID'] ?>"><?= $nhanVien['HoTen'] ?></option>
-            <?php endforeach; ?>
-        </select>
-        <button type="submit" name="add_backup">Thêm sao lưu</button>
-    </form>
+    <div class="custom-card">
+        <form method="POST" action="">
+            <div class="form-group">
+                <label for="thoiGianSaoLuu">Thời gian sao lưu:</label>
+                <input type="datetime-local" id="thoiGianSaoLuu" name="thoiGianSaoLuu" required>
+            </div>
+            <div class="form-group">
+                <label for="duLieu">Dữ liệu sao lưu:</label>
+                <textarea id="duLieu" name="duLieu" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="ghiChu">Ghi chú:</label>
+                <input type="text" id="ghiChu" name="ghiChu">
+            </div>
+            <div class="form-group">
+                <label for="nhanVienID">Nhân viên thực hiện:</label>
+                <select id="nhanVienID" name="nhanVienID" required>
+                    <?php foreach ($nhanVienOptions as $nhanVien): ?>
+                        <option value="<?= $nhanVien['NhanVienID'] ?>"><?= $nhanVien['HoTen'] ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <button class="custom-button" type="submit" name="add_backup">Thêm sao lưu</button>
+        </form>
+    </div>
 
-    <form method="POST" action="backups.php">
-        <input type="text" name="searchQuery" placeholder="Tìm kiếm sao lưu" value="<?= $searchQuery ?>">
-        <button type="submit" name="search">Tìm kiếm</button>
-    </form>
+    <div class="custom-card">
+        <form method="POST" action="" class="form-inline">
+            <input type="text" name="searchQuery" placeholder="Tìm kiếm sao lưu" value="<?= $searchQuery ?>">
+            <button class="custom-button" type="submit" name="search">Tìm kiếm</button>
+        </form>
+    </div>
 
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>Thời gian sao lưu</th>
-            <th>Ghi chú</th>
-            <th>Nhân viên thực hiện</th>
-            <th>Hành động</th>
-        </tr>
-        <?php while ($row = $result->fetch_assoc()): ?>
-        <tr>
-            <td><?= $row['SaoLuuID'] ?></td>
-            <td><?= $row['ThoiGianSaoLuu'] ?></td>
-            <td><?= $row['GhiChu'] ?></td>
-            <td><?= $row['NhanVienID'] ?></td>
-            <td>
-                <form method="POST" action="backups.php" style="display:inline-block;">
-                    <input type="hidden" name="saoLuuID" value="<?= $row['SaoLuuID'] ?>">
-                    <input type="datetime-local" name="thoiGianSaoLuu" value="<?= date('Y-m-d\TH:i', strtotime($row['ThoiGianSaoLuu'])) ?>" required>
-                    <textarea name="duLieu" required><?= $row['DuLieu'] ?></textarea>
-                    <input type="text" name="ghiChu" value="<?= $row['GhiChu'] ?>">
-                    <select name="nhanVienID" required>
-                        <?php foreach ($nhanVienOptions as $nhanVien): ?>
-                            <option value="<?= $nhanVien['NhanVienID'] ?>" <?= $nhanVien['NhanVienID'] == $row['NhanVienID'] ? 'selected' : '' ?>><?= $nhanVien['HoTen'] ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                    <button type="submit" name="update_backup">Sửa</button>
-                </form>
-                <a href="backups.php?delete=<?= $row['SaoLuuID'] ?>" onclick="return confirm('Bạn có chắc chắn muốn xóa?')" style="display:inline-block;">Xóa</a>
-                <a href="backups.php?restore=<?= $row['SaoLuuID'] ?>" onclick="return confirm('Bạn có chắc chắn muốn phục hồi?')" style="display:inline-block;">Phục hồi</a>
-            </td>
-        </tr>
-        <?php endwhile; ?>
-    </table>
+    <div class="custom-card">
+        <table class="custom-table">
+            <tr>
+                <th>ID</th>
+                <th>Thời gian sao lưu</th>
+                <th>Ghi chú</th>
+                <th>Nhân viên thực hiện</th>
+                <th>Hành động</th>
+            </tr>
+            <?php while ($row = $result->fetch_assoc()): ?>
+            <tr>
+                <td><?= $row['SaoLuuID'] ?></td>
+                <td><?= $row['ThoiGianSaoLuu'] ?></td>
+                <td><?= $row['GhiChu'] ?></td>
+                <td><?= $row['NhanVienID'] ?></td>
+                <td>
+                    <form method="POST" action="" style="display:inline-block;">
+                        <input type="hidden" name="saoLuuID" value="<?= $row['SaoLuuID'] ?>">
+                        <input type="datetime-local" name="thoiGianSaoLuu" value="<?= date('Y-m-d\TH:i', strtotime($row['ThoiGianSaoLuu'])) ?>" required>
+                        <textarea name="duLieu" required><?= $row['DuLieu'] ?></textarea>
+                        <input type="text" name="ghiChu" value="<?= $row['GhiChu'] ?>">
+                        <select name="nhanVienID" required>
+                            <?php foreach ($nhanVienOptions as $nhanVien): ?>
+                                <option value="<?= $nhanVien['NhanVienID'] ?>" <?= $nhanVien['NhanVienID'] == $row['NhanVienID'] ? 'selected' : '' ?>><?= $nhanVien['HoTen'] ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                        <button class="small-button custom-button" type="submit" name="update_backup">Sửa</button>
+                    </form>
+                    <a href="?delete=<?= $row['SaoLuuID'] ?>" onclick="return confirm('Bạn có chắc chắn muốn xóa?')" class="small-button custom-button">Xóa</a>
+                    <a href="?restore=<?= $row['SaoLuuID'] ?>" onclick="return confirm('Bạn có chắc chắn muốn phục hồi?')" class="small-button custom-button">Phục hồi</a>
+                </td>
+            </tr>
+            <?php endwhile; ?>
+        </table>
+    </div>
 </div>
 
 <?php

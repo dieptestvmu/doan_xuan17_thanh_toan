@@ -82,7 +82,7 @@
     }
 
     // Thống kê biểu đồ
-    $revenueChartQuery = "SELECT DATE(NgayThanhToan) AS date, SUM(SoTien) AS total FROM thanhtoan WHERE TrangThaiThanhToan = 'Hoàn thành' AND MONTH(NgayThanhToan) = MONTH(CURDATE()) AND YEAR(NgayThanhToan) = YEAR(CURDATE()) GROUP BY DATE(NgayThanhToan)";
+    $revenueChartQuery = "SELECT DATE(NgayThanhToan) AS date, SUM(SoTien) AS total FROM thanhtoan WHERE TrangThaiThanhToan = 'Đã thanh toán' AND MONTH(NgayThanhToan) = MONTH(CURDATE()) AND YEAR(NgayThanhToan) = YEAR(CURDATE()) GROUP BY DATE(NgayThanhToan)";
     $ticketsChartQuery = "SELECT DATE(ThoiGianDatVe) AS date, COUNT(*) AS total FROM vexe WHERE MONTH(ThoiGianDatVe) = MONTH(CURDATE()) AND YEAR(ThoiGianDatVe) = YEAR(CURDATE()) GROUP BY DATE(ThoiGianDatVe)";
 
     $revenueChart = $conn->query($revenueChartQuery)->fetch_all(MYSQLI_ASSOC);
@@ -397,7 +397,7 @@
 
             <label for="yearSelect">Chọn năm:</label>
             <select id="yearSelect">
-                <?php for ($year = 2020; $year <= date('Y'); $year++): ?>
+                <?php for ($year = 2007; $year <= date('Y'); $year++): ?>
                     <option value="<?= $year ?>"><?= $year ?></option>
                 <?php endfor; ?>
             </select>
@@ -454,72 +454,73 @@
     <script>
     // Đặt tháng và năm hiện tại khi trang được tải
     document.addEventListener('DOMContentLoaded', () => {
-        const currentDate = new Date();
-        const currentMonth = currentDate.getMonth() + 1; // Tháng bắt đầu từ 0 nên cần +1
-        const currentYear = currentDate.getFullYear();
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth() + 1; // Tháng bắt đầu từ 0 nên cần +1
+    const currentYear = currentDate.getFullYear();
 
-        document.getElementById('monthSelect').value = currentMonth;
-        document.getElementById('yearSelect').value = currentYear;
+    document.getElementById('monthSelect').value = currentMonth;
+    document.getElementById('yearSelect').value = currentYear;
 
-        // Cập nhật biểu đồ cho tháng và năm hiện tại
-        updateCharts('daily', currentMonth, currentYear);
-    });
+    // Cập nhật biểu đồ cho tháng và năm hiện tại
+    updateCharts('daily', currentMonth, currentYear);
+});
 
-    document.getElementById('viewDailyBtn').addEventListener('click', () => {
-        const month = document.getElementById('monthSelect').value;
-        const year = document.getElementById('yearSelect').value;
-        updateCharts('daily', month, year);
-    });
+document.getElementById('viewDailyBtn').addEventListener('click', () => {
+    const month = document.getElementById('monthSelect').value;
+    const year = document.getElementById('yearSelect').value;
+    updateCharts('daily', month, year);
+});
 
-    document.getElementById('viewMonthlyBtn').addEventListener('click', () => {
-        const year = document.getElementById('yearSelect').value;
-        updateCharts('monthly', null, year);
-    });
+document.getElementById('viewMonthlyBtn').addEventListener('click', () => {
+    const year = document.getElementById('yearSelect').value;
+    updateCharts('monthly', null, year);
+});
 
-    function updateCharts(viewType, month, year) {
-        fetch(`report_data.php?viewType=${viewType}&month=${month}&year=${year}`)
-            .then(response => response.json())
-            .then(data => {
-                const revenueChartCtx = document.getElementById('revenueChart').getContext('2d');
-                const ticketsChartCtx = document.getElementById('ticketsChart').getContext('2d');
+function updateCharts(viewType, month, year) {
+    fetch(`report_data.php?viewType=${viewType}&month=${month}&year=${year}`)
+        .then(response => response.json())
+        .then(data => {
+            const revenueChartCtx = document.getElementById('revenueChart').getContext('2d');
+            const ticketsChartCtx = document.getElementById('ticketsChart').getContext('2d');
 
-                revenueChart.data.labels = data.revenueLabels;
-                revenueChart.data.datasets[0].data = data.revenueValues;
-                revenueChart.update();
+            revenueChart.data.labels = data.revenueLabels;
+            revenueChart.data.datasets[0].data = data.revenueValues;
+            revenueChart.update();
 
-                ticketsChart.data.labels = data.ticketsLabels;
-                ticketsChart.data.datasets[0].data = data.ticketsValues;
-                ticketsChart.update();
-            });
+            ticketsChart.data.labels = data.ticketsLabels;
+            ticketsChart.data.datasets[0].data = data.ticketsValues;
+            ticketsChart.update();
+        });
+}
+
+const revenueChart = new Chart(document.getElementById('revenueChart').getContext('2d'), {
+    type: 'line',
+    data: {
+        labels: [],
+        datasets: [{
+            label: 'Doanh thu',
+            data: [],
+            borderColor: 'rgba(75, 192, 192, 1)',
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            fill: true
+        }]
     }
+});
 
-    const revenueChart = new Chart(document.getElementById('revenueChart').getContext('2d'), {
-        type: 'line',
-        data: {
-            labels: [],
-            datasets: [{
-                label: 'Doanh thu',
-                data: [],
-                borderColor: 'rgba(75, 192, 192, 1)',
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                fill: true
-            }]
-        }
-    });
+const ticketsChart = new Chart(document.getElementById('ticketsChart').getContext('2d'), {
+    type: 'line',
+    data: {
+        labels: [],
+        datasets: [{
+            label: 'Số lượng vé bán ra',
+            data: [],
+            borderColor: 'rgba(153, 102, 255, 1)',
+            backgroundColor: 'rgba(153, 102, 255, 0.2)',
+            fill: true
+        }]
+    }
+});
 
-    const ticketsChart = new Chart(document.getElementById('ticketsChart').getContext('2d'), {
-        type: 'line',
-        data: {
-            labels: [],
-            datasets: [{
-                label: 'Số lượng vé bán ra',
-                data: [],
-                borderColor: 'rgba(153, 102, 255, 1)',
-                backgroundColor: 'rgba(153, 102, 255, 0.2)',
-                fill: true
-            }]
-        }
-    });
 
     document.getElementById('exportExcelBtn').addEventListener('click', () => {
         document.getElementById('exportFormContainer').style.display = 'block';
