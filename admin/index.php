@@ -22,7 +22,7 @@ require 'includes_admin/admin_header.php';
 
     // Thống kê tổng quan trong tháng hiện tại
     $totalTicketsQuery = "SELECT COUNT(*) AS total FROM vexe WHERE MONTH(ThoiGianDatVe) = MONTH(CURDATE()) AND YEAR(ThoiGianDatVe) = YEAR(CURDATE())";
-    $totalRevenueQuery = "SELECT SUM(SoTien) AS total FROM thanhtoan WHERE TrangThaiThanhToan = 'Hoàn thành' AND MONTH(NgayThanhToan) = MONTH(CURDATE()) AND YEAR(NgayThanhToan) = YEAR(CURDATE())";
+    $totalRevenueQuery = "SELECT SUM(SoTien) AS total FROM thanhtoan WHERE TrangThaiThanhToan = 'Đã thanh toán' AND MONTH(NgayThanhToan) = MONTH(CURDATE()) AND YEAR(NgayThanhToan) = YEAR(CURDATE())";
     $totalBusesQuery = "SELECT COUNT(*) AS total FROM xe";
     $totalIncidentsQuery = "SELECT COUNT(*) AS total FROM suco WHERE MONTH(NgayXayRaSuCo) = MONTH(CURDATE()) AND YEAR(NgayXayRaSuCo) = YEAR(CURDATE())";
     $totalCanceledTicketsQuery = "SELECT COUNT(*) AS total FROM loghuyve WHERE MONTH(NgayHuy) = MONTH(CURDATE()) AND YEAR(NgayHuy) = YEAR(CURDATE())";
@@ -38,7 +38,7 @@ require 'includes_admin/admin_header.php';
     $totalRoutes = $conn->query($totalRoutesQuery)->fetch_assoc()['total'];
 
     // Thống kê biểu đồ
-    $revenueChartQuery = "SELECT DATE(NgayThanhToan) AS date, SUM(SoTien) AS total FROM thanhtoan WHERE TrangThaiThanhToan = 'Hoàn thành' AND MONTH(NgayThanhToan) = MONTH(CURDATE()) AND YEAR(NgayThanhToan) = YEAR(CURDATE()) GROUP BY DATE(NgayThanhToan)";
+    $revenueChartQuery = "SELECT DATE(NgayThanhToan) AS date, SUM(SoTien) AS total FROM thanhtoan WHERE TrangThaiThanhToan = 'Đã thanh toán' AND MONTH(NgayThanhToan) = MONTH(CURDATE()) AND YEAR(NgayThanhToan) = YEAR(CURDATE()) GROUP BY DATE(NgayThanhToan)";
     $ticketsChartQuery = "SELECT DATE(ThoiGianDatVe) AS date, COUNT(*) AS total FROM vexe WHERE MONTH(ThoiGianDatVe) = MONTH(CURDATE()) AND YEAR(ThoiGianDatVe) = YEAR(CURDATE()) GROUP BY DATE(ThoiGianDatVe)";
 
     $revenueChart = $conn->query($revenueChartQuery)->fetch_all(MYSQLI_ASSOC);

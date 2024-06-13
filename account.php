@@ -123,6 +123,63 @@ $user = $result->fetch_assoc();
             font-size: 12px;
             margin: 2px;
         }
+
+
+        
+        .cancel-row {
+  background-color: #ffdddd; /* Màu nền hồng nhạt */
+  border: 2px solid #ff0000; /* Viền đỏ */
+}
+
+.rotating-glow-row {
+  animation: glow-rotate-row 2s linear infinite;
+  position: relative; /* Đảm bảo thuộc tính z-index hoạt động */
+  z-index: 9999; /* Đặt z-index cao để hiển thị ở mức cao nhất */
+}
+
+
+@keyframes glow-rotate-row {
+  0% {
+    box-shadow: 0 0 10px #ff0000; /* Bóng mờ đỏ */
+  }
+  50% {
+    box-shadow: 10px 10px 20px #ff0000; /* Bóng mờ đỏ lớn hơn */
+  }
+  100% {
+    box-shadow: 0 0 10px #ff0000; /* Bóng mờ đỏ */
+  }
+}
+
+
+#cancelTicketForm {
+    display: none;
+    position: absolute;
+    z-index: 10000; /* Đặt z-index cao để hiển thị ở mức cao nhất */
+    width: 500px; /* Điều chỉnh theo nhu cầu */
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: opacity 0.5s ease;
+    opacity: 0;
+}
+
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px); /* Hiệu ứng di chuyển từ trên xuống */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+
+
     </style>
 </head>
 <body>
@@ -273,5 +330,59 @@ $user = $result->fetch_assoc();
     </div>
 
     <script src="js/account.js"></script>
+
+    <script>
+        // ... (code JavaScript hiện tại)
+        document.addEventListener('DOMContentLoaded', function() {
+    const cancelTicketButtons = document.querySelectorAll('.cancel-ticket-btn');
+    const cancelTicketForm = document.getElementById('cancelTicketForm');
+    const cancelTicketIDInput = document.getElementById('cancelTicketID');
+
+    cancelTicketButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const ticketRows = document.querySelectorAll('.rotating-glow-row');
+            ticketRows.forEach(row => {
+                row.classList.remove('rotating-glow-row');
+            });
+
+            const ticketRow = button.closest('tr');
+            ticketRow.classList.add('rotating-glow-row');
+
+            // Lấy vị trí của dòng vé đang chọn
+            const rowRect = ticketRow.getBoundingClientRect();
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+            // Đặt vị trí của form hủy vé
+            cancelTicketForm.style.top = `${rowRect.top + scrollTop + rowRect.height + 20}px`;
+            cancelTicketForm.style.left = `${rowRect.left + (rowRect.width / 2) - (cancelTicketForm.offsetWidth / 2)}px`;
+
+            // Gán giá trị cho input ẩn để gửi ID vé
+            const ticketID = button.getAttribute('data-ticket-id');
+            cancelTicketIDInput.value = ticketID;
+
+            // Hiển thị form hủy vé
+            cancelTicketForm.style.display = 'block';
+            cancelTicketForm.style.opacity = 1;
+
+            // Cuộn trang xuống từ từ để hiển thị form hủy vé đầy đủ
+            window.scrollTo({
+                top: rowRect.top + scrollTop + rowRect.height + 20 - (window.innerHeight - cancelTicketForm.offsetHeight) / 2,
+                behavior: 'smooth'
+            });
+        });
+    });
+
+    const closeCancelTicketButton = document.getElementById('closeCancelTicket');
+    closeCancelTicketButton.addEventListener('click', () => {
+        cancelTicketForm.style.opacity = 0;
+        setTimeout(() => {
+            cancelTicketForm.style.display = 'none';
+        }, 500); // Phù hợp với thời gian của transition
+    });
+});
+
+
+// ... (code JavaScript hiện tại)
+    </script>
 </body>
 </html>
