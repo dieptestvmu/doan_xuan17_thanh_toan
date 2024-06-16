@@ -384,16 +384,37 @@ session_start();
             </div>
             <div class="form-group">
                 <label for="register-password">Mật khẩu:</label>
-                <input type="password" id="register-password" name="password" class="form-control" required>
+                <input type="password" id="register-password" name="password" class="form-control" required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$" title="Mật khẩu phải chứa từ 8-16 ký tự, bao gồm chữ thường, chữ hoa, số và ký tự đặc biệt.">
+
+                <!-- <input type="password" id="register-password" name="password" class="form-control" required> -->
             </div>
             <div class="form-group">
                 <label for="register-fullname">Họ tên:</label>
-                <input type="text" id="register-fullname" name="fullname" class="form-control" required>
+                <input type="text" id="register-fullname" name="fullname" class="form-control" required oninput="formatName(this)">
+
+                <!-- <input type="text" id="register-fullname" name="fullname" class="form-control" required> -->
             </div>
-            <div class="form-group">
+            
+            <!-- <div class="form-group">
                 <label for="register-phone">Số điện thoại:</label>
-                <input type="text" id="register-phone" name="phone" class="form-control" required>
-            </div>
+                <input type="number" maxlength="10" id="register-phone" name="phone" class="form-control-phone" required>
+            </div> -->
+
+            <div class="form-group">
+    <label for="register-phone">Số điện thoại:</label>
+    <!-- Chỉ cho phép nhập số và tối đa 10 số -->
+    <!-- <input type="number" id="register-phone" name="phone" class="form-control" oninput="this.value = this.value.slice(0, 10)" required title="Số điện thoại phải chứa 10 số"> -->
+
+    <!-- Khi bấm đăng ký sẽ kiểm tra có nhập đúng 10 số không -->
+    <input type="tel" id="register-phone" name="phone" class="form-control" pattern="^\d{10}$" maxlength="10" inputmode="numeric" required title="Số điện thoại phải chứa đúng 10 chữ số.">
+
+    
+    <!-- <input type="tel" id="register-phone" name="phone" class="form-control" pattern="^\d{10}$" maxlength="10" required title="Số điện thoại phải chứa đúng 10 chữ số."> -->
+    <!-- <input type="tel" id="register-phone" name="phone" class="form-control" pattern="\d{10}" maxlength="10" inputmode="numeric" required title="Số điện thoại phải chứa 10 số"> -->
+    <!-- <input type="tel" id="register-phone" name="phone" class="form-control" pattern="\d{10}" maxlength="10" required title="Số điện thoại phải chứa 10 số"> -->
+</div>
+
+
             <div class="form-group">
                 <label for="register-email">Email:</label>
                 <input type="email" id="register-email" name="email" class="form-control">
@@ -404,8 +425,64 @@ session_start();
     </div>
 </div>
 
+<!-- Nhập họ tên đúng quy cách -->
+<script>
+function formatName(input) {
+    input.value = input.value.split(' ').map(function(word) {
+        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    }).join(' ');
+}
+</script>
 
+<!-- <script>
+function formatName(input) {
+    input.value = input.value.replace(/\b\w+/g, function(txt) {
+        return txt.charAt(0).toUpperCase() + txt.slice(1).toLowerCase();
+    });
+}
+</script> -->
 
+<!-- 
+<script>
+function formatName(input) {
+    input.value = input.value.replace(/\b\w+/g, function(txt) {
+        return txt.charAt(0).toUpperCase() + txt.slice(1).toLowerCase();
+    });
+}
+</script> -->
+
+<!-- ///////////////////////////////////////// -->
+<script>
+    $('input.form-control-phone').on('keyup', function() {
+   limitText(this, 10)
+});
+function limitText(field, maxChar){
+   var ref = $(field),
+   val = ref.val();
+   if ( val.length >= maxChar ){
+     ref.val(function() {
+       console.log(val.substr(0, maxChar))
+       return val.substr(0, maxChar);
+     });
+   }
+}
+</script>
+<!-- 
+    <script type="text/javascript">
+function limitText(limitField, limitCount, limitNum) {
+if (limitField.value.length > limitNum) {
+limitField.value = limitField.value.substring(0, limitNum);
+} else {
+limitCount.value = limitNum - limitField.value.length;
+}
+}
+</script> -->
+
+<!-- <script>
+    $('input.register-phone').on('keyup', function() {
+   limitText(this, 10)
+});
+</script> -->
 <script>
 $(document).ready(function() {
     $('#loginBtn').click(function() {

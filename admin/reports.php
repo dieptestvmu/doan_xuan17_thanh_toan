@@ -428,6 +428,9 @@
                     <select id="reportType" name="reportType" required>
                         <option value="daily">Hàng ngày</option>
                         <option value="monthly">Hàng tháng</option>
+                    
+                        <!-- <option value="yearly">Hàng năm</option> -->
+                        
                     </select>
                 </div>
                 <div class="form-group">
